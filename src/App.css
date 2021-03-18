@@ -1,38 +1,108 @@
-.App {
-  text-align: center;
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: gray;
+  color: white;
+  height: 60px;
+  position: relative;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.logo {
+  font-weight: bold;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+nav {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-around;
+  position: absolute;
+  left: 0;
+  background-color: #E26060;
+  width: 100vw;
+  height: 200px;
 }
 
-.App-link {
-  color: #61dafb;
+/* the transition properties are telling the element to change from whatever state it was in to these new values 
+
+so when the closed class gets set on an element (our nav in this case) the css is saying "in 1 second, take the opacity from what it used to be to a 0" and same for the top positioning
+*/
+
+.closed {
+  top: -280px;
+  opacity: 0;
+  transition: opacity 1s, top 1s;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.opened {
+  top: 80px;
+  opacity: 1;
+  transition: opacity 1s, top 1s;
+}
+
+
+/* inside our first media query, we selected the span so that the hamburger menu would disappear 
+
+we then selected the opened and closed classes so we could target our nav links (targeting just "nav" wouldn't work because a tag selector is less specific than a class, and the styles wouldn't have been overidden)
+
+we selected both opened and closed in case the user had the menu in one state or the other when their screen size changed (we can't assume it was closed just because that is the default) */
+@media (min-width: 500px) {
+  span {
+    display: none;
   }
-  to {
-    transform: rotate(360deg);
+
+  .opened, .closed {
+    opacity: 1;
+    background-color: transparent;
+    position: static;
+    flex-direction: row;
+    width: 70%;
   }
+}
+
+@media (min-width: 800px) {
+  .opened, .closed {
+    width: 40%;
+  }
+}
+
+
+/* here we set up the styling for the fake form */
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 250px;
+}
+
+/* i like to define animations before using them, but CSS doesn't actually care
+
+i also like to do a beginning, middle, and end most of the time in my infinte animations so that they're a little smoother than "from" and "to" -- if it wasn't infinite, from and to work great for a one time movement (as do transitions if you prefer those)
+*/
+@keyframes zipline {
+  0% {
+    transform: translateX(0)
+  }
+  50% {
+    transform: translateX(calc(100vw - 50px));
+  }
+  100% {
+    transform: translateX(0)
+  }
+}
+
+/* vs code will give you a little template to fill out with animation information if you just start typing the "animation" property -- you don't have to fill out all of them, but you're going to at least want a name and a duration, probably also a tming-function and an iteration-count
+
+template: 
+  animation: name duration timing-function delay iteration-count direction fill-mode;
+*/
+.loading-ani {
+  width: 50px;
+  height: 50px;
+  background-color: thistle;
+  animation: zipline 2s ease infinite;
+
 }
